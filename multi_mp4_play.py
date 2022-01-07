@@ -49,6 +49,11 @@ class image_gui():
         self.txt4.place(x=100, y=40)
         self.txt4.insert(tkinter.END,"2")
 
+        self.txt5 = tkinter.Entry(width=45)
+        self.txt5.place(x=10, y=65)
+        self.txt5.insert(tkinter.END,"")
+
+
         label4 = tkinter.Label(text="サイズ倍率 = 1/")
         label4.pack(side="top")
         label4.place(x=20, y=40) 
@@ -74,12 +79,18 @@ class image_gui():
         sizerate =self.txt4.get()
         sizerate =int(sizerate)
         
-        
-        file_count=0  
-        for name in self.filenames:
-          video[file_count]=name
-          file_count=file_count+1
-        root_main.destroy()
+
+        if(len(self.filenames)>100):  
+            self.txt5.insert(tkinter.END,"ファイル数100超えました")
+
+        else:
+            
+            file_count=0  
+            for name in self.filenames:
+                video[file_count]=name
+                file_count=file_count+1
+          
+            root_main.destroy()
 
  
 
