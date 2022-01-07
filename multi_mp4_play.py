@@ -26,10 +26,10 @@ from tkinter import font
 
         
 
-video=[0]*4
-cap=[0]*4
+video=[0]*100
+cap=[0]*100
 sizerate=2
-
+file_count=0
 
 #最初の画面のクラス
 class image_gui():  
@@ -68,16 +68,17 @@ class image_gui():
 
     def quit(self):
         global video
+        global file_count
         
         global sizerate
         sizerate =self.txt4.get()
         sizerate =int(sizerate)
         
         
-        i=0  
+        file_count=0  
         for name in self.filenames:
-          video[i]=name
-          i=i+1
+          video[file_count]=name
+          file_count=file_count+1
         root_main.destroy()
 
  
@@ -101,21 +102,10 @@ root_main.mainloop()
 import cv2
 import threading
 
-
-cap[0] = cv2.VideoCapture(video[0])
-cap[1] = cv2.VideoCapture(video[1])
-cap[2] = cv2.VideoCapture(video[2])
-cap[3] = cv2.VideoCapture(video[3])
-
-
-if (cap[0].isOpened()== False):  
-    print("mp4 open error") 
-if (cap[1].isOpened()== False):  
-    print("mp4 open error") 
-if (cap[2].isOpened()== False):  
-    print("mp4 open error") 
-if (cap[3].isOpened()== False):  
-    print("mp4 open error") 
+for i in range(file_count):
+    cap[i] = cv2.VideoCapture(video[i])
+    if (cap[i].isOpened()== False):  
+        print("mp4 open error") 
 
 
 def play(no):
@@ -140,19 +130,12 @@ def play(no):
     cv2.destroyAllWindows()
   
   
+thread=[0]*100
 
+for i in range(file_count):
+      
+    thread[i] = threading.Thread(target=play, args=(i,))
+    thread[i].start()
 
-  
-thread1 = threading.Thread(target=play, args=(0,))
-thread1.start()
-
-thread2 = threading.Thread(target=play, args=(1,))
-thread2.start()
-
-thread3 = threading.Thread(target=play, args=(2,))
-thread3.start()
-
-thread4 = threading.Thread(target=play, args=(3,))
-thread4.start()
 
   
