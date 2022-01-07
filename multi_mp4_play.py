@@ -27,6 +27,7 @@ from tkinter import font
         
 
 video=[0]*4
+cap=[0]*4
 
 
 #最初の画面のクラス
@@ -87,26 +88,26 @@ import cv2
 import threading
 
 
-cap1 = cv2.VideoCapture(video[0])
-cap2 = cv2.VideoCapture(video[1])
-cap3 = cv2.VideoCapture(video[2])
-cap4 = cv2.VideoCapture(video[3])
+cap[0] = cv2.VideoCapture(video[0])
+cap[1] = cv2.VideoCapture(video[1])
+cap[2] = cv2.VideoCapture(video[2])
+cap[3] = cv2.VideoCapture(video[3])
 
 
-if (cap1.isOpened()== False):  
+if (cap[0].isOpened()== False):  
     print("mp4 open error") 
-if (cap2.isOpened()== False):  
+if (cap[1].isOpened()== False):  
     print("mp4 open error") 
-if (cap3.isOpened()== False):  
+if (cap[2].isOpened()== False):  
     print("mp4 open error") 
-if (cap4.isOpened()== False):  
+if (cap[3].isOpened()== False):  
     print("mp4 open error") 
 
 
 def play1():
-    while(cap1.isOpened()):
+    while(cap[0].isOpened()):
 
-        ret, frame = cap1.read()
+        ret, frame = cap[0].read()
         width = frame.shape[1]
         height = frame.shape[0]
         width=int(width/2)
@@ -120,15 +121,15 @@ def play1():
     
         else:
             break
-    cap1.release()
+    cap[0].release()
     cv2.destroyAllWindows()
   
   
 def play2():
-    while(cap2.isOpened()):
+    while(cap[1].isOpened()):
     
     
-        ret, frame = cap2.read()
+        ret, frame = cap[1].read()
         width = frame.shape[1]
         height = frame.shape[0]
         width=int(width/2)
@@ -144,16 +145,16 @@ def play2():
             break
 
 
-    cap2.release()
+    cap[1].release()
     cv2.destroyAllWindows()
   
 
 
 def play3():
-    while(cap3.isOpened()):
+    while(cap[2].isOpened()):
     
     
-        ret, frame = cap3.read()
+        ret, frame = cap[2].read()
         width = frame.shape[1]
         height = frame.shape[0]
         width=int(width/2)
@@ -169,15 +170,15 @@ def play3():
             break
 
 
-    cap3.release()
+    cap[2].release()
     cv2.destroyAllWindows()
 
 
 def play4():
-    while(cap4.isOpened()):
+    while(cap[3].isOpened()):
     
     
-        ret, frame = cap4.read()
+        ret, frame = cap[3].read()
         width = frame.shape[1]
         height = frame.shape[0]
         width=int(width/2)
@@ -193,7 +194,7 @@ def play4():
             break
 
 
-    cap4.release()
+    cap[3].release()
     cv2.destroyAllWindows()
 
 
