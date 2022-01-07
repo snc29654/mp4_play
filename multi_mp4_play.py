@@ -118,112 +118,41 @@ if (cap[3].isOpened()== False):
     print("mp4 open error") 
 
 
-def play1():
-    while(cap[0].isOpened()):
+def play(no):
+    no=int(no)
+    while(cap[no].isOpened()):
 
-        ret, frame = cap[0].read()
+        ret, frame = cap[no].read()
         width = frame.shape[1]
         height = frame.shape[0]
         width=int(width/sizerate)
         height=int(height/sizerate)
         if ret == True:
             frame = cv2.resize(frame, (width, height))
-            cv2.imshow("Video_1", frame)
+            cv2.imshow("Video_"+str(no), frame)
         
             if cv2.waitKey(25) & 0xFF == ord('q'): 
                 break
     
         else:
             break
-    cap[0].release()
+    cap[no].release()
     cv2.destroyAllWindows()
   
   
-def play2():
-    while(cap[1].isOpened()):
-    
-    
-        ret, frame = cap[1].read()
-        width = frame.shape[1]
-        height = frame.shape[0]
-        width=int(width/sizerate)
-        height=int(height/sizerate)
-        if ret == True:
-            frame = cv2.resize(frame, (width, height))
-            cv2.imshow("Video_2", frame)
-        
-            if cv2.waitKey(25) & 0xFF == ord('q'): 
-                break
-    
-        else:
-            break
-
-
-    cap[1].release()
-    cv2.destroyAllWindows()
-  
-
-
-def play3():
-    while(cap[2].isOpened()):
-    
-    
-        ret, frame = cap[2].read()
-        width = frame.shape[1]
-        height = frame.shape[0]
-        width=int(width/sizerate)
-        height=int(height/sizerate)
-        if ret == True:
-            frame = cv2.resize(frame, (width, height))
-            cv2.imshow("Video_3", frame)
-        
-            if cv2.waitKey(25) & 0xFF == ord('q'): 
-                break
-    
-        else:
-            break
-
-
-    cap[2].release()
-    cv2.destroyAllWindows()
-
-
-def play4():
-    while(cap[3].isOpened()):
-    
-    
-        ret, frame = cap[3].read()
-        width = frame.shape[1]
-        height = frame.shape[0]
-        width=int(width/sizerate)
-        height=int(height/sizerate)
-        if ret == True:
-            frame = cv2.resize(frame, (width, height))
-            cv2.imshow("Video_4", frame)
-        
-            if cv2.waitKey(25) & 0xFF == ord('q'): 
-                break
-    
-        else:
-            break
-
-
-    cap[3].release()
-    cv2.destroyAllWindows()
 
 
   
-thread1 = threading.Thread(target=play1)
+thread1 = threading.Thread(target=play, args=(0,))
 thread1.start()
 
-#jpgの変更処理
-thread2 = threading.Thread(target=play2)
+thread2 = threading.Thread(target=play, args=(1,))
 thread2.start()
 
-thread3 = threading.Thread(target=play3)
+thread3 = threading.Thread(target=play, args=(2,))
 thread3.start()
 
-thread4 = threading.Thread(target=play4)
+thread4 = threading.Thread(target=play, args=(3,))
 thread4.start()
 
   
