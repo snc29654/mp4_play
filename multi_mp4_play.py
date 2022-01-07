@@ -28,6 +28,7 @@ from tkinter import font
 
 video=[0]*4
 cap=[0]*4
+sizerate=2
 
 
 #最初の画面のクラス
@@ -35,15 +36,22 @@ class image_gui():
     imgs = []
     def __init__(self, main):  
         self.index_before = 0
-        self.sizerate=1.0
+        self.sizerate=2
         self.n_old=[]
         self.angle=0
         self.filenames =[]
         
-        button3= Button(root_main, text=u'ファイル   選択', command=self.button3_clicked)  
+        button3= Button(root_main, text=u'MP4選択', command=self.button3_clicked)  
         button3.grid(row=0, column=1)  
         button3.place(x=100, y=10) 
 
+        self.txt4 = tkinter.Entry(width=10)
+        self.txt4.place(x=100, y=40)
+        self.txt4.insert(tkinter.END,"2")
+
+        label4 = tkinter.Label(text="サイズ倍率 = 1/")
+        label4.pack(side="top")
+        label4.place(x=20, y=40) 
 
 
 
@@ -60,6 +68,12 @@ class image_gui():
 
     def quit(self):
         global video
+        
+        global sizerate
+        sizerate =self.txt4.get()
+        sizerate =int(sizerate)
+        
+        
         i=0  
         for name in self.filenames:
           video[i]=name
@@ -110,8 +124,8 @@ def play1():
         ret, frame = cap[0].read()
         width = frame.shape[1]
         height = frame.shape[0]
-        width=int(width/2)
-        height=int(height/2)
+        width=int(width/sizerate)
+        height=int(height/sizerate)
         if ret == True:
             frame = cv2.resize(frame, (width, height))
             cv2.imshow("Video_1", frame)
@@ -132,8 +146,8 @@ def play2():
         ret, frame = cap[1].read()
         width = frame.shape[1]
         height = frame.shape[0]
-        width=int(width/2)
-        height=int(height/2)
+        width=int(width/sizerate)
+        height=int(height/sizerate)
         if ret == True:
             frame = cv2.resize(frame, (width, height))
             cv2.imshow("Video_2", frame)
@@ -157,8 +171,8 @@ def play3():
         ret, frame = cap[2].read()
         width = frame.shape[1]
         height = frame.shape[0]
-        width=int(width/2)
-        height=int(height/2)
+        width=int(width/sizerate)
+        height=int(height/sizerate)
         if ret == True:
             frame = cv2.resize(frame, (width, height))
             cv2.imshow("Video_3", frame)
@@ -181,8 +195,8 @@ def play4():
         ret, frame = cap[3].read()
         width = frame.shape[1]
         height = frame.shape[0]
-        width=int(width/2)
-        height=int(height/2)
+        width=int(width/sizerate)
+        height=int(height/sizerate)
         if ret == True:
             frame = cv2.resize(frame, (width, height))
             cv2.imshow("Video_4", frame)
