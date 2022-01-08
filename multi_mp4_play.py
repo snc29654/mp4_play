@@ -120,6 +120,7 @@ for i in range(file_count):
 
 
 def play(no):
+    qflag=0
     no=int(no)
     cap[no] = cv2.VideoCapture(video[no])
     while(cap[no].isOpened()):
@@ -134,6 +135,7 @@ def play(no):
                 cv2.imshow("Video_"+str(no), frame)
         
                 if cv2.waitKey(25) & 0xFF == ord('q'): 
+                    qflag=1
                     break
     
             else:
@@ -141,7 +143,8 @@ def play(no):
         except:
             break
     cap[no].release()
-    play(no)
+    if(qflag==0):
+        play(no)
     cv2.destroyAllWindows()
   
 thread=[0]*100
