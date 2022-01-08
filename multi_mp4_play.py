@@ -121,25 +121,28 @@ for i in range(file_count):
 
 def play(no):
     no=int(no)
+    cap[no] = cv2.VideoCapture(video[no])
     while(cap[no].isOpened()):
-
-        ret, frame = cap[no].read()
-        width = frame.shape[1]
-        height = frame.shape[0]
-        width=int(width/sizerate)
-        height=int(height/sizerate)
-        if ret == True:
-            frame = cv2.resize(frame, (width, height))
-            cv2.imshow("Video_"+str(no), frame)
+        try:
+            ret, frame = cap[no].read()
+            width = frame.shape[1]
+            height = frame.shape[0]
+            width=int(width/sizerate)
+            height=int(height/sizerate)
+            if ret == True:
+                frame = cv2.resize(frame, (width, height))
+                cv2.imshow("Video_"+str(no), frame)
         
-            if cv2.waitKey(25) & 0xFF == ord('q'): 
-                break
+                if cv2.waitKey(25) & 0xFF == ord('q'): 
+                    break
     
-        else:
+            else:
+                break
+        except:
             break
     cap[no].release()
+    play(no)
     cv2.destroyAllWindows()
-  
   
 thread=[0]*100
 
