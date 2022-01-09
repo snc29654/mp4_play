@@ -31,6 +31,7 @@ cap=[0]*100
 sizerate=2
 file_count=0
 interval=0
+mabiki=0
 
 #最初の画面のクラス
 class image_gui():  
@@ -53,18 +54,25 @@ class image_gui():
 
 
 
-        self.txt3 = tkinter.Entry(width=10)
+        self.txt3 = tkinter.Entry(width=6)
         self.txt3.place(x=100, y=40)
         self.txt3.insert(tkinter.END,"0.00")
 
 
-        self.txt4 = tkinter.Entry(width=10)
+        self.txt4 = tkinter.Entry(width=5)
         self.txt4.place(x=100, y=65)
         self.txt4.insert(tkinter.END,"2")
 
+        self.txt6 = tkinter.Entry(width=5)
+        self.txt6.place(x=100, y=90)
+        self.txt6.insert(tkinter.END,"0")
+
+
+
         self.txt5 = tkinter.Entry(width=45)
-        self.txt5.place(x=10, y=90)
+        self.txt5.place(x=10, y=115)
         self.txt5.insert(tkinter.END,"")
+
 
 
         label3 = tkinter.Label(text="コマ間隔(秒)")
@@ -76,6 +84,9 @@ class image_gui():
         label4.pack(side="top")
         label4.place(x=20, y=65) 
 
+        label5 = tkinter.Label(text="間引き数")
+        label5.pack(side="top")
+        label5.place(x=20, y=90) 
 
 
     def button3_clicked(self):  
@@ -101,8 +112,12 @@ class image_gui():
         global file_count
         global interval
         global sizerate
+        global mabiki
         sizerate =self.txt4.get()
         sizerate =int(sizerate)
+
+        mabiki =self.txt6.get()
+        mabiki =int(mabiki)
 
         interval =self.txt3.get()
         interval =float(interval)
@@ -152,6 +167,9 @@ for i in range(file_count):
 
 
 def play(no):
+    global mabiki
+
+    frame_count=0
     qflag=0
     no=int(no)
     cap[no] = cv2.VideoCapture(video[no])
@@ -165,7 +183,8 @@ def play(no):
             time.sleep(interval)
             if ret == True:
                 frame = cv2.resize(frame, (width, height))
-                cv2.imshow("Video_"+str(no), frame)
+                if(frame_count%(mabiki+1)==0):
+                    cv2.imshow("Video_"+str(no), frame)
         
                 if cv2.waitKey(25) & 0xFF == ord('q'): 
                     qflag=1
@@ -173,6 +192,7 @@ def play(no):
     
             else:
                 break
+            frame_count=frame_count + 1
         except:
             break
     cap[no].release()
