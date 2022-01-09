@@ -84,6 +84,7 @@ class image_gui():
         label4.pack(side="top")
         label4.place(x=20, y=65) 
 
+
         label5 = tkinter.Label(text="間引き数")
         label5.pack(side="top")
         label5.place(x=20, y=90) 
