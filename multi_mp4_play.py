@@ -92,10 +92,6 @@ class image_gui():
        
 
         self.camera=1
-        fTyp = [('', '*')] 
-        iDir = os.path.abspath(os.path.dirname(__file__)) 
-        self.filenames = tkFileDialog.askopenfilenames(filetypes= [("Video file", ".mp4") ], initialdir=iDir)
-        print(self.filenames)
         self.quit()
 
 
@@ -124,6 +120,7 @@ class image_gui():
                 file_count=file_count+1
             if(self.camera==1):    
                 video[0]=0
+                file_count=1  
             root_main.destroy()
 
  
