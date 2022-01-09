@@ -46,7 +46,8 @@ class image_gui():
         
         button3= Button(root_main, text=u'MP4選択', command=self.button3_clicked)  
         button3.grid(row=0, column=1)  
-        button3.place(x=100, y=10) 
+        button3.place(x=50, y=10) 
+
 
         button4= Button(root_main, text=u'カメラ', command=self.button4_clicked)  
         button4.grid(row=0, column=1)  
@@ -98,12 +99,19 @@ class image_gui():
         iDir = os.path.abspath(os.path.dirname(__file__)) 
         self.filenames = tkFileDialog.askopenfilenames(filetypes= [("Video file", ".mp4") ], initialdir=iDir)
         print(self.filenames)
-        self.quit()
+        button5= Button(root_main, text=u'再生', command=self.button5_clicked)  
+        button5.grid(row=0, column=1)  
+        button5.place(x=150, y=10) 
+
 
     def button4_clicked(self):  
        
 
         self.camera=1
+        self.quit()
+    def button5_clicked(self):  
+       
+
         self.quit()
 
 
