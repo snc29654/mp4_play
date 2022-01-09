@@ -36,6 +36,7 @@ interval=0
 class image_gui():  
     imgs = []
     def __init__(self, main):  
+        self.camera=0
         self.index_before = 0
         self.sizerate=2
         self.n_old=[]
@@ -45,6 +46,11 @@ class image_gui():
         button3= Button(root_main, text=u'MP4選択', command=self.button3_clicked)  
         button3.grid(row=0, column=1)  
         button3.place(x=100, y=10) 
+
+        button4= Button(root_main, text=u'カメラ', command=self.button4_clicked)  
+        button4.grid(row=0, column=1)  
+        button4.place(x=200, y=10) 
+
 
 
         self.txt3 = tkinter.Entry(width=10)
@@ -82,6 +88,17 @@ class image_gui():
         print(self.filenames)
         self.quit()
 
+    def button4_clicked(self):  
+       
+
+        self.camera=1
+        fTyp = [('', '*')] 
+        iDir = os.path.abspath(os.path.dirname(__file__)) 
+        self.filenames = tkFileDialog.askopenfilenames(filetypes= [("Video file", ".mp4") ], initialdir=iDir)
+        print(self.filenames)
+        self.quit()
+
+
 
     def quit(self):
         global video
@@ -105,7 +122,8 @@ class image_gui():
             for name in self.filenames:
                 video[file_count]=name
                 file_count=file_count+1
-          
+            if(self.camera==1):    
+                video[0]=0
             root_main.destroy()
 
  
