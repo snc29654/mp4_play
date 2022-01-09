@@ -30,6 +30,7 @@ video=[0]*100
 cap=[0]*100
 sizerate=2
 file_count=0
+interval=0
 
 #最初の画面のクラス
 class image_gui():  
@@ -45,18 +46,29 @@ class image_gui():
         button3.grid(row=0, column=1)  
         button3.place(x=100, y=10) 
 
+
+        self.txt3 = tkinter.Entry(width=10)
+        self.txt3.place(x=100, y=40)
+        self.txt3.insert(tkinter.END,"0.00")
+
+
         self.txt4 = tkinter.Entry(width=10)
-        self.txt4.place(x=100, y=40)
+        self.txt4.place(x=100, y=65)
         self.txt4.insert(tkinter.END,"2")
 
         self.txt5 = tkinter.Entry(width=45)
-        self.txt5.place(x=10, y=65)
+        self.txt5.place(x=10, y=90)
         self.txt5.insert(tkinter.END,"")
+
+
+        label3 = tkinter.Label(text="コマ間隔(秒)")
+        label3.pack(side="top")
+        label3.place(x=20, y=40) 
 
 
         label4 = tkinter.Label(text="サイズ倍率 = 1/")
         label4.pack(side="top")
-        label4.place(x=20, y=40) 
+        label4.place(x=20, y=65) 
 
 
 
@@ -74,10 +86,14 @@ class image_gui():
     def quit(self):
         global video
         global file_count
-        
+        global interval
         global sizerate
         sizerate =self.txt4.get()
         sizerate =int(sizerate)
+
+        interval =self.txt3.get()
+        interval =float(interval)
+
         
 
         if(len(self.filenames)>100):  
@@ -99,7 +115,7 @@ class image_gui():
 root_main= tkinter.Tk()  
 c=image_gui(root_main)  
 root_main.title("rootです")  
-root_main.geometry("300x100") 
+root_main.geometry("300x150") 
 
 
 
@@ -119,6 +135,7 @@ for i in range(file_count):
         print("mp4 open error") 
 
 
+
 def play(no):
     qflag=0
     no=int(no)
@@ -130,6 +147,7 @@ def play(no):
             height = frame.shape[0]
             width=int(width/sizerate)
             height=int(height/sizerate)
+            time.sleep(interval)
             if ret == True:
                 frame = cv2.resize(frame, (width, height))
                 cv2.imshow("Video_"+str(no), frame)
