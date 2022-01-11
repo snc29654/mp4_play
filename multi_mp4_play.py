@@ -113,6 +113,7 @@ class image_gui():
         self.quit()
     def button5_clicked(self):  
        
+        self.camera=0
 
         self.quit()
 
