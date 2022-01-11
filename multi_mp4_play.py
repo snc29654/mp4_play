@@ -28,13 +28,13 @@ import threading
 
         
 
-video=[0]*100
-cap=[0]*100
 
 #最初の画面のクラス
 class image_gui():  
     imgs = []
     def __init__(self, main):  
+        self.cap=[0]*100
+        self.video=[0]*100
         self.camera=0
         self.index_before = 0
         self.sizerate=2
@@ -50,11 +50,11 @@ class image_gui():
 
         button4= Button(root_main, text=u'カメラ', command=self.button4_clicked)  
         button4.grid(row=0, column=1)  
-        button4.place(x=150, y=10) 
+        button4.place(x=210, y=10) 
 
         button6= Button(root_main, text=u'終了', command=self.button6_clicked)  
         button6.grid(row=0, column=1)  
-        button6.place(x=200, y=10) 
+        button6.place(x=250, y=10) 
 
 
         self.txt3 = tkinter.Entry(width=6)
@@ -131,8 +131,8 @@ class image_gui():
 
 
         for i in range(self.file_count):
-            cap[i] = cv2.VideoCapture(video[i])
-            if (cap[i].isOpened()== False):  
+            self.cap[i] = cv2.VideoCapture(self.video[i])
+            if (self.cap[i].isOpened()== False):  
                 print("mp4 open error") 
 
 
@@ -154,10 +154,10 @@ class image_gui():
             
             self.file_count=0  
             for name in self.filenames:
-                video[self.file_count]=name
+                self.video[self.file_count]=name
                 self.file_count=self.file_count+1
             if(self.camera==1):    
-                video[0]=0
+                self.video[0]=0
                 self.file_count=1  
             #root_main.destroy()
 
@@ -168,10 +168,10 @@ class image_gui():
         frame_count=0
         qflag=0
         no=int(no)
-        cap[no] = cv2.VideoCapture(video[no])
-        while(cap[no].isOpened()):
+        self.cap[no] = cv2.VideoCapture(self.video[no])
+        while(self.cap[no].isOpened()):
             try:
-                ret, frame = cap[no].read()
+                ret, frame = self.cap[no].read()
                 width = frame.shape[1]
                 height = frame.shape[0]
                 width=int(width/self.sizerate)
@@ -191,7 +191,7 @@ class image_gui():
                 frame_count=frame_count + 1
             except:
                 break
-        cap[no].release()
+        self.cap[no].release()
         if(qflag==0):
             self.play(no)
         cv2.destroyAllWindows()
