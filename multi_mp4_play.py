@@ -23,15 +23,13 @@ import glob
 from tkinter import filedialog as tkFileDialog
 import tkinter as tk
 from tkinter import font
+import cv2
+import threading
 
         
 
 video=[0]*100
 cap=[0]*100
-sizerate=2
-file_count=0
-interval=0
-mabiki=0
 
 #最初の画面のクラス
 class image_gui():  
@@ -43,6 +41,7 @@ class image_gui():
         self.n_old=[]
         self.angle=0
         self.filenames =[]
+        self.file_count=0  
         
         button3= Button(root_main, text=u'MP4選択', command=self.button3_clicked)  
         button3.grid(row=0, column=1)  
@@ -51,8 +50,11 @@ class image_gui():
 
         button4= Button(root_main, text=u'カメラ', command=self.button4_clicked)  
         button4.grid(row=0, column=1)  
-        button4.place(x=200, y=10) 
+        button4.place(x=150, y=10) 
 
+        button6= Button(root_main, text=u'終了', command=self.button6_clicked)  
+        button6.grid(row=0, column=1)  
+        button6.place(x=200, y=10) 
 
 
         self.txt3 = tkinter.Entry(width=6)
@@ -115,21 +117,33 @@ class image_gui():
         self.quit()
 
 
+    def button6_clicked(self):  
+       
+
+        self.quit()
+        root_main.destroy()
+
+
+
 
     def quit(self):
         global video
-        global file_count
-        global interval
-        global sizerate
-        global mabiki
-        sizerate =self.txt4.get()
-        sizerate =int(sizerate)
 
-        mabiki =self.txt6.get()
-        mabiki =int(mabiki)
 
-        interval =self.txt3.get()
-        interval =float(interval)
+        for i in range(self.file_count):
+            cap[i] = cv2.VideoCapture(video[i])
+            if (cap[i].isOpened()== False):  
+                print("mp4 open error") 
+
+
+        self.sizerate =self.txt4.get()
+        self.sizerate =int(self.sizerate)
+
+        self.mabiki =self.txt6.get()
+        self.mabiki =int(self.mabiki)
+
+        self.interval =self.txt3.get()
+        self.interval =float(self.interval)
 
         
 
@@ -138,16 +152,59 @@ class image_gui():
 
         else:
             
-            file_count=0  
+            self.file_count=0  
             for name in self.filenames:
-                video[file_count]=name
-                file_count=file_count+1
+                video[self.file_count]=name
+                self.file_count=self.file_count+1
             if(self.camera==1):    
                 video[0]=0
-                file_count=1  
-            root_main.destroy()
+                self.file_count=1  
+            #root_main.destroy()
 
- 
+            self.play_thread()
+     
+    def play(self,no):
+
+        frame_count=0
+        qflag=0
+        no=int(no)
+        cap[no] = cv2.VideoCapture(video[no])
+        while(cap[no].isOpened()):
+            try:
+                ret, frame = cap[no].read()
+                width = frame.shape[1]
+                height = frame.shape[0]
+                width=int(width/self.sizerate)
+                height=int(height/self.sizerate)
+                time.sleep(self.interval)
+                if ret == True:
+                    frame = cv2.resize(frame, (width, height))
+                    if(frame_count%(self.mabiki+1)==0):
+                        cv2.imshow("Video_"+str(no), frame)
+        
+                    if cv2.waitKey(25) & 0xFF == ord('q'): 
+                        qflag=1
+                        break
+    
+                else:
+                    break
+                frame_count=frame_count + 1
+            except:
+                break
+        cap[no].release()
+        if(qflag==0):
+            self.play(no)
+        cv2.destroyAllWindows()
+
+    def play_thread(self):
+        thread=[0]*100
+
+        for i in range(self.file_count):
+      
+            thread[i] = threading.Thread(target=self.play, args=(i,))
+            thread[i].start()
+
+
 
 
 
@@ -157,64 +214,16 @@ root_main.title("rootです")
 root_main.geometry("300x150") 
 
 
-
-
-
 root_main.mainloop()
 
 
 
 
-import cv2
-import threading
-
-for i in range(file_count):
-    cap[i] = cv2.VideoCapture(video[i])
-    if (cap[i].isOpened()== False):  
-        print("mp4 open error") 
 
 
 
-def play(no):
-    global mabiki
 
-    frame_count=0
-    qflag=0
-    no=int(no)
-    cap[no] = cv2.VideoCapture(video[no])
-    while(cap[no].isOpened()):
-        try:
-            ret, frame = cap[no].read()
-            width = frame.shape[1]
-            height = frame.shape[0]
-            width=int(width/sizerate)
-            height=int(height/sizerate)
-            time.sleep(interval)
-            if ret == True:
-                frame = cv2.resize(frame, (width, height))
-                if(frame_count%(mabiki+1)==0):
-                    cv2.imshow("Video_"+str(no), frame)
-        
-                if cv2.waitKey(25) & 0xFF == ord('q'): 
-                    qflag=1
-                    break
-    
-            else:
-                break
-            frame_count=frame_count + 1
-        except:
-            break
-    cap[no].release()
-    if(qflag==0):
-        play(no)
-    cv2.destroyAllWindows()
   
-thread=[0]*100
-
-for i in range(file_count):
-      
-    thread[i] = threading.Thread(target=play, args=(i,))
-    thread[i].start()
 
 
   
