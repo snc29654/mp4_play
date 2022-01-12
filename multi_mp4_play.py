@@ -261,6 +261,7 @@ l = tk.Label(textvariable=var,font=48)
 l.place(x=0,y=0)
 c=image_gui(master=root_main,var=var)  
 c.place(x=150,y=40)
+c.set("位置可変")
 
 
 root_main.mainloop()
