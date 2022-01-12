@@ -191,7 +191,7 @@ class image_gui(ttk.Combobox):
                 height = frame.shape[0]
                 width=int(width/self.sizerate)
                 height=int(height/self.sizerate)
-                time.sleep(self.interval)qqqq
+                time.sleep(self.interval)
                 if ret == True:
                     frame = cv2.resize(frame, (width, height))
                     if(frame_count%(self.mabiki+1)==0):
