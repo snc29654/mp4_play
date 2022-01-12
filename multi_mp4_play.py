@@ -42,6 +42,10 @@ class image_gui(ttk.Combobox):
         self.angle=0
         self.filenames =[]
         self.file_count=0  
+        
+        self.gridx=300
+        self.gridy=400
+        
         li = ['位置可変', '位置固定']     
         super().__init__(master, values=li) 
        
@@ -64,15 +68,25 @@ class image_gui(ttk.Combobox):
         self.txt3.insert(tkinter.END,"0.00")
 
 
+
         self.txt4 = tkinter.Entry(width=5)
         self.txt4.place(x=100, y=65)
         self.txt4.insert(tkinter.END,"2")
+
+        self.txt7 = tkinter.Entry(width=6)
+        self.txt7.place(x=250, y=65)
+        self.txt7.insert(tkinter.END,"300")
+
+
 
         self.txt6 = tkinter.Entry(width=5)
         self.txt6.place(x=100, y=90)
         self.txt6.insert(tkinter.END,"0")
 
 
+        self.txt8 = tkinter.Entry(width=6)
+        self.txt8.place(x=250, y=90)
+        self.txt8.insert(tkinter.END,"400")
 
         self.txt5 = tkinter.Entry(width=45)
         self.txt5.place(x=10, y=115)
@@ -89,11 +103,19 @@ class image_gui(ttk.Combobox):
         label4.pack(side="top")
         label4.place(x=20, y=65) 
 
+        label7 = tkinter.Label(text="横グリッド")
+        label7.pack(side="top")
+        label7.place(x=180, y=65) 
+
+
 
         label5 = tkinter.Label(text="間引き数")
         label5.pack(side="top")
         label5.place(x=20, y=90) 
         
+        label8 = tkinter.Label(text="縦グリッド")
+        label8.pack(side="top")
+        label8.place(x=180, y=90) 
         
         self.var = var                      
 
@@ -160,6 +182,12 @@ class image_gui(ttk.Combobox):
         self.interval =self.txt3.get()
         self.interval =float(self.interval)
 
+
+        self.gridx =self.txt7.get()
+        self.gridx =int(self.gridx)
+
+        self.gridy =self.txt8.get()
+        self.gridy =int(self.gridy)
         
 
         if(len(self.filenames)>100):  
@@ -197,7 +225,7 @@ class image_gui(ttk.Combobox):
                     if(frame_count%(self.mabiki+1)==0):
                         cv2.imshow("Video_"+str(no), frame)
                         if(self.place=="位置固定"):
-                            cv2.moveWindow("Video_"+str(no), (no%4)*300, int((no/4))*300)        
+                            cv2.moveWindow("Video_"+str(no), (no%4)*self.gridx, int((no/4))*self.gridy)        
                     if cv2.waitKey(25) & 0xFF == ord('q'): 
                         qflag=1
                         break
