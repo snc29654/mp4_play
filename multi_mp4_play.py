@@ -30,9 +30,9 @@ import threading
 
 
 #最初の画面のクラス
-class image_gui():  
+class image_gui(ttk.Combobox):  
     imgs = []
-    def __init__(self, main):  
+    def __init__(self, var,master=None):  
         self.cap=[0]*100
         self.video=[0]*100
         self.camera=0
@@ -42,7 +42,9 @@ class image_gui():
         self.angle=0
         self.filenames =[]
         self.file_count=0  
-        
+        li = ['位置自動', '位置指定']     
+        super().__init__(master, values=li) 
+       
         button3= Button(root_main, text=u'MP4選択', command=self.button3_clicked)  
         button3.grid(row=0, column=1)  
         button3.place(x=50, y=10) 
@@ -91,7 +93,19 @@ class image_gui():
         label5 = tkinter.Label(text="間引き数")
         label5.pack(side="top")
         label5.place(x=20, y=90) 
+        
+        
+        self.var = var                      
 
+        self.bind(                          
+            '<<ComboboxSelected>>',
+            self.show_selected
+            )
+
+    def show_selected(self, event):
+        self.place = self.get()       
+        print(self.place) 
+        
 
     def button3_clicked(self):  
        
@@ -177,12 +191,13 @@ class image_gui():
                 height = frame.shape[0]
                 width=int(width/self.sizerate)
                 height=int(height/self.sizerate)
-                time.sleep(self.interval)
+                time.sleep(self.interval)qqqq
                 if ret == True:
                     frame = cv2.resize(frame, (width, height))
                     if(frame_count%(self.mabiki+1)==0):
                         cv2.imshow("Video_"+str(no), frame)
-        
+                        if(self.place=="位置指定"):
+                            cv2.moveWindow("Video_"+str(no), no*300, 0)        
                     if cv2.waitKey(25) & 0xFF == ord('q'): 
                         qflag=1
                         break
@@ -210,9 +225,14 @@ class image_gui():
 
 
 root_main= tkinter.Tk()  
-c=image_gui(root_main)  
 root_main.title("rootです")  
 root_main.geometry("300x150") 
+
+var = tk.StringVar(master=root_main)
+l = tk.Label(textvariable=var,font=48)
+l.place(x=0,y=0)
+c=image_gui(master=root_main,var=var)  
+c.place(x=150,y=40)
 
 
 root_main.mainloop()
