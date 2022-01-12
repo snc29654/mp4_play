@@ -42,7 +42,7 @@ class image_gui(ttk.Combobox):
         self.angle=0
         self.filenames =[]
         self.file_count=0  
-        li = ['位置自動', '位置指定']     
+        li = ['位置可変', '位置固定']     
         super().__init__(master, values=li) 
        
         button3= Button(root_main, text=u'MP4選択', command=self.button3_clicked)  
@@ -196,7 +196,7 @@ class image_gui(ttk.Combobox):
                     frame = cv2.resize(frame, (width, height))
                     if(frame_count%(self.mabiki+1)==0):
                         cv2.imshow("Video_"+str(no), frame)
-                        if(self.place=="位置指定"):
+                        if(self.place=="位置固定"):
                             cv2.moveWindow("Video_"+str(no), (no%4)*300, int((no/4))*300)        
                     if cv2.waitKey(25) & 0xFF == ord('q'): 
                         qflag=1
