@@ -197,7 +197,7 @@ class image_gui(ttk.Combobox):
                     if(frame_count%(self.mabiki+1)==0):
                         cv2.imshow("Video_"+str(no), frame)
                         if(self.place=="位置指定"):
-                            cv2.moveWindow("Video_"+str(no), no*300, 0)        
+                            cv2.moveWindow("Video_"+str(no), (no%4)*300, int((no/4))*300)        
                     if cv2.waitKey(25) & 0xFF == ord('q'): 
                         qflag=1
                         break
