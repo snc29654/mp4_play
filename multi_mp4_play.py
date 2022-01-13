@@ -88,9 +88,15 @@ class image_gui(ttk.Combobox):
         self.txt8.place(x=250, y=90)
         self.txt8.insert(tkinter.END,"400")
 
+        self.txt10 = tkinter.Entry(width=6)
+        self.txt10.place(x=250, y=120)
+        self.txt10.insert(tkinter.END,"4")
+
+
+
         self.txt5 = tkinter.Entry(width=45)
-        self.txt5.place(x=10, y=115)
-        self.txt5.insert(tkinter.END,"")
+        self.txt5.place(x=10, y=150)
+        self.txt5.insert(tkinter.END,"エラーはありません")
 
 
 
@@ -103,7 +109,7 @@ class image_gui(ttk.Combobox):
         label4.pack(side="top")
         label4.place(x=20, y=65) 
 
-        label7 = tkinter.Label(text="横グリッド")
+        label7 = tkinter.Label(text="横グリッド幅")
         label7.pack(side="top")
         label7.place(x=180, y=65) 
 
@@ -113,9 +119,14 @@ class image_gui(ttk.Combobox):
         label5.pack(side="top")
         label5.place(x=20, y=90) 
         
-        label8 = tkinter.Label(text="縦グリッド")
+        label8 = tkinter.Label(text="縦グリッド幅")
         label8.pack(side="top")
         label8.place(x=180, y=90) 
+
+        label10 = tkinter.Label(text="横グリッド数")
+        label10.pack(side="top")
+        label10.place(x=180, y=120) 
+
         
         self.var = var                      
 
@@ -188,6 +199,11 @@ class image_gui(ttk.Combobox):
 
         self.gridy =self.txt8.get()
         self.gridy =int(self.gridy)
+
+
+        self.x_count =self.txt10.get()
+        self.x_count =int(self.x_count)
+
         
 
         if(len(self.filenames)>100):  
@@ -225,7 +241,7 @@ class image_gui(ttk.Combobox):
                     if(frame_count%(self.mabiki+1)==0):
                         cv2.imshow("Video_"+str(no), frame)
                         if(self.place=="位置固定"):
-                            cv2.moveWindow("Video_"+str(no), (no%4)*self.gridx, int((no/4))*self.gridy)        
+                            cv2.moveWindow("Video_"+str(no), (no%self.x_count)*self.gridx, int((no/self.x_count))*self.gridy)        
                     if cv2.waitKey(25) & 0xFF == ord('q'): 
                         qflag=1
                         break
@@ -254,7 +270,7 @@ class image_gui(ttk.Combobox):
 
 root_main= tkinter.Tk()  
 root_main.title("rootです")  
-root_main.geometry("300x150") 
+root_main.geometry("300x200") 
 
 var = tk.StringVar(master=root_main)
 l = tk.Label(textvariable=var,font=48)
