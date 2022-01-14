@@ -84,6 +84,11 @@ class image_gui(ttk.Combobox):
         self.txt6.insert(tkinter.END,"0")
 
 
+        self.txt11 = tkinter.Entry(width=5)
+        self.txt11.place(x=100, y=115)
+        self.txt11.insert(tkinter.END,"1")
+
+
         self.txt8 = tkinter.Entry(width=6)
         self.txt8.place(x=250, y=90)
         self.txt8.insert(tkinter.END,"400")
@@ -118,6 +123,11 @@ class image_gui(ttk.Combobox):
         label5 = tkinter.Label(text="間引き数")
         label5.pack(side="top")
         label5.place(x=20, y=90) 
+
+        label11 = tkinter.Label(text="再生回数")
+        label11.pack(side="top")
+        label11.place(x=20, y=115) 
+
         
         label8 = tkinter.Label(text="縦グリッド幅")
         label8.pack(side="top")
@@ -204,6 +214,8 @@ class image_gui(ttk.Combobox):
         self.x_count =self.txt10.get()
         self.x_count =int(self.x_count)
 
+        self.exec_count =self.txt11.get()
+        self.exec_count =int(self.exec_count)
         
 
         if(len(self.filenames)>100):  
@@ -223,37 +235,37 @@ class image_gui(ttk.Combobox):
             self.play_thread()
      
     def play(self,no):
-
-        frame_count=0
-        qflag=0
-        no=int(no)
-        self.cap[no] = cv2.VideoCapture(self.video[no])
-        while(self.cap[no].isOpened()):
-            try:
-                ret, frame = self.cap[no].read()
-                width = frame.shape[1]
-                height = frame.shape[0]
-                width=int(width/self.sizerate)
-                height=int(height/self.sizerate)
-                time.sleep(self.interval)
-                if ret == True:
-                    frame = cv2.resize(frame, (width, height))
-                    if(frame_count%(self.mabiki+1)==0):
-                        cv2.imshow("Video_"+str(no), frame)
-                        if(self.place=="位置固定"):
-                            cv2.moveWindow("Video_"+str(no), (no%self.x_count)*self.gridx, int((no/self.x_count))*self.gridy)        
-                    if cv2.waitKey(25) & 0xFF == ord('q'): 
-                        qflag=1
-                        break
+        for j in range(self.exec_count):
+            frame_count=0
+            qflag=0
+            no=int(no)
+            self.cap[no] = cv2.VideoCapture(self.video[no])
+            while(self.cap[no].isOpened()):
+                try:
+                    ret, frame = self.cap[no].read()
+                    width = frame.shape[1]
+                    height = frame.shape[0]
+                    width=int(width/self.sizerate)
+                    height=int(height/self.sizerate)
+                    time.sleep(self.interval)
+                    if ret == True:
+                        frame = cv2.resize(frame, (width, height))
+                        if(frame_count%(self.mabiki+1)==0):
+                            cv2.imshow("Video_"+str(no), frame)
+                            if(self.place=="位置固定"):
+                                cv2.moveWindow("Video_"+str(no), (no%self.x_count)*self.gridx, int((no/self.x_count))*self.gridy)        
+                        if cv2.waitKey(25) & 0xFF == ord('q'): 
+                            qflag=1
+                            break
     
-                else:
+                    else:
+                        break
+                    frame_count=frame_count + 1
+                except:
                     break
-                frame_count=frame_count + 1
-            except:
+            self.cap[no].release()
+            if(qflag==1):
                 break
-        self.cap[no].release()
-        if(qflag==0):
-            self.play(no)
         cv2.destroyAllWindows()
 
     def play_thread(self):
