@@ -235,6 +235,7 @@ class image_gui(ttk.Combobox):
             self.play_thread()
      
     def play(self,no):
+        sizerate=self.sizerate
         for j in range(self.exec_count):
             frame_count=0
             qflag=0
@@ -245,8 +246,8 @@ class image_gui(ttk.Combobox):
                     ret, frame = self.cap[no].read()
                     width = frame.shape[1]
                     height = frame.shape[0]
-                    width=int(width/self.sizerate)
-                    height=int(height/self.sizerate)
+                    width=int(width/sizerate)
+                    height=int(height/sizerate)
                     time.sleep(self.interval)
                     if ret == True:
                         frame = cv2.resize(frame, (width, height))
@@ -254,10 +255,15 @@ class image_gui(ttk.Combobox):
                             cv2.imshow("Video_"+str(no), frame)
                             if(self.place=="位置固定"):
                                 cv2.moveWindow("Video_"+str(no), (no%self.x_count)*self.gridx, int((no/self.x_count))*self.gridy)        
-                        if cv2.waitKey(25) & 0xFF == ord('q'): 
+                        key= cv2.waitKey(25) & 0xFF  
+                        if key == ord('q'): 
                             qflag=1
                             break
-    
+                        if key == ord('s'): 
+                            sizerate+=1    
+                        if key == ord('l'):
+                            if(sizerate > 1 ): 
+                                sizerate-=1    
                     else:
                         break
                     frame_count=frame_count + 1
