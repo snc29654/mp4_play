@@ -236,6 +236,7 @@ class image_gui(ttk.Combobox):
      
     def play(self,no):
         canny=0
+        mono=0
         sizerate=self.sizerate
         for j in range(self.exec_count):
             frame_count=0
@@ -255,14 +256,22 @@ class image_gui(ttk.Combobox):
                         key= cv2.waitKey(25) & 0xFF  
                         if key == ord('c'): 
                             canny=1
+
+                        if key == ord('m'): 
+                            mono=1
+
                         if key == ord('n'): 
                             canny=0    
+                            mono=0    
+
 
                         if (canny==1):    
                             frame = cv2.GaussianBlur(frame, (7, 7), 1.41)
                             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                             frame = cv2.Canny(frame, 25, 75)
 
+                        if (mono==1):    
+                            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
                         if(frame_count%(self.mabiki+1)==0):
                             
