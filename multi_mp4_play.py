@@ -238,6 +238,8 @@ class image_gui(ttk.Combobox):
         canny=0
         mono=0
         sizerate=self.sizerate
+        mabiki=self.mabiki
+        interval=self.interval
         for j in range(self.exec_count):
             frame_count=0
             qflag=0
@@ -250,7 +252,7 @@ class image_gui(ttk.Combobox):
                     height = frame.shape[0]
                     width=int(width/sizerate)
                     height=int(height/sizerate)
-                    time.sleep(self.interval)
+                    time.sleep(interval)
                     if ret == True:
                         frame = cv2.resize(frame, (width, height))
                         key= cv2.waitKey(25) & 0xFF  
@@ -260,9 +262,17 @@ class image_gui(ttk.Combobox):
                         if key == ord('m'): 
                             mono=1
 
+                        if key == ord('a'): 
+                            interval+=0.01
+
+                        if key == ord('b'): 
+                            mabiki+=1
+
                         if key == ord('n'): 
                             canny=0    
                             mono=0    
+                            interval=0
+                            mabiki=0
 
 
                         if (canny==1):    
@@ -273,7 +283,7 @@ class image_gui(ttk.Combobox):
                         if (mono==1):    
                             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-                        if(frame_count%(self.mabiki+1)==0):
+                        if(frame_count%(mabiki+1)==0):
                             
                           
                             
