@@ -195,7 +195,7 @@ class image_gui(ttk.Combobox):
 
 
         self.sizerate =self.txt4.get()
-        self.sizerate =int(self.sizerate)
+        self.sizerate =float(self.sizerate)
 
         self.mabiki =self.txt6.get()
         self.mabiki =int(self.mabiki)
@@ -237,7 +237,7 @@ class image_gui(ttk.Combobox):
     def play(self,no):
         canny=0
         mono=0
-        sizerate=self.sizerate
+        sizerate=float(self.sizerate)
         mabiki=self.mabiki
         interval=self.interval
         for j in range(self.exec_count):
@@ -294,10 +294,10 @@ class image_gui(ttk.Combobox):
                             qflag=1
                             break
                         if key == ord('s'): 
-                            sizerate+=1    
+                            sizerate+=0.1    
                         if key == ord('l'):
-                            if(sizerate > 1 ): 
-                                sizerate-=1    
+                            if(sizerate > 0.1 ): 
+                                sizerate-=0.1    
                     else:
                         break
                     frame_count=frame_count + 1
