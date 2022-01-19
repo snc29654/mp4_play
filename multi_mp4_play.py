@@ -51,8 +51,11 @@ class image_gui(ttk.Combobox):
        
         button3= Button(root_main, text=u'MP4選択', command=self.button3_clicked)  
         button3.grid(row=0, column=1)  
-        button3.place(x=50, y=10) 
+        button3.place(x=10, y=10) 
 
+        button7= Button(root_main, text=u'MP4追加', command=self.button7_clicked)  
+        button7.grid(row=0, column=1)  
+        button7.place(x=80, y=10) 
 
         button4= Button(root_main, text=u'カメラ', command=self.button4_clicked)  
         button4.grid(row=0, column=1)  
@@ -151,8 +154,6 @@ class image_gui(ttk.Combobox):
         
 
     def button3_clicked(self):  
-       
-
 
         fTyp = [('', '*')] 
         iDir = os.path.abspath(os.path.dirname(__file__)) 
@@ -161,6 +162,19 @@ class image_gui(ttk.Combobox):
         button5= Button(root_main, text=u'再生', command=self.button5_clicked)  
         button5.grid(row=0, column=1)  
         button5.place(x=150, y=10) 
+
+
+    def button7_clicked(self):  
+
+        fTyp = [('', '*')] 
+        iDir = os.path.abspath(os.path.dirname(__file__)) 
+        filenames = tkFileDialog.askopenfilenames(filetypes= [("Video file", ".mp4") ], initialdir=iDir)
+        self.filenames=self.filenames + filenames
+        print(self.filenames)
+        button5= Button(root_main, text=u'再生', command=self.button5_clicked)  
+        button5.grid(row=0, column=1)  
+        button5.place(x=150, y=10) 
+
 
 
     def button4_clicked(self):  
