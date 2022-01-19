@@ -251,6 +251,7 @@ class image_gui(ttk.Combobox):
     def play(self,no):
         canny=0
         mono=0
+        schetch=0
         sizerate=float(self.sizerate)
         mabiki=self.mabiki
         interval=self.interval
@@ -281,12 +282,29 @@ class image_gui(ttk.Combobox):
 
                         if key == ord('b'): 
                             mabiki+=1
+                        if key == ord('k'): 
+                            schetch=1
 
                         if key == ord('n'): 
                             canny=0    
                             mono=0    
                             interval=0
                             mabiki=0
+                            schetch=0
+
+                        if (schetch==1):    
+                            frame = cv2.GaussianBlur(frame, (7, 7), 1.41)
+                            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+                            # 白黒反転
+                            grayImageInv = 255 - frame
+
+                            # ぼかしをかける
+                            grayImageInv = cv2.GaussianBlur(grayImageInv, (21, 21), 0)
+
+                            #blend using color dodge
+                            frame = cv2.divide(frame, 255-grayImageInv, scale=256.0)
+                            frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
 
 
                         if (canny==1):    
