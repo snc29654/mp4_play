@@ -249,6 +249,7 @@ class image_gui(ttk.Combobox):
             self.play_thread()
      
     def play(self,no):
+        divide_param=0
         canny=0
         mono=0
         schetch=0
@@ -285,6 +286,15 @@ class image_gui(ttk.Combobox):
                         if key == ord('k'): 
                             schetch=1
 
+                        if key == ord('d'): 
+                            divide_param+=1
+                        if key == ord('e'): 
+                            if(divide_param >0):
+                                divide_param-=1
+
+
+
+
                         if key == ord('n'): 
                             canny=0    
                             mono=0    
@@ -303,7 +313,7 @@ class image_gui(ttk.Combobox):
                             grayImageInv = cv2.GaussianBlur(grayImageInv, (21, 21), 0)
 
                             #blend using color dodge
-                            frame = cv2.divide(frame, 255-grayImageInv, scale=256.0)
+                            frame = cv2.divide(frame, 255-grayImageInv+divide_param, scale=256.0)
                             frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
 
 
