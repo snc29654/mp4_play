@@ -35,18 +35,9 @@ import os
 class image_gui():  
     imgs = []
     def __init__(self, var,master=None):  
-        self.cap=[0]*100
-        self.video=[0]*100
-        self.camera=0
-        self.index_before = 0
-        self.sizerate=2
-        self.n_old=[]
-        self.angle=0
         self.filenames =[]
         self.file_count=0  
         
-        self.gridx=300
-        self.gridy=400
         
        
         button3= Button(root_main, text=u'MP4選択', command=self.button3_clicked)  
@@ -94,11 +85,9 @@ class image_gui():
     def button4_clicked(self):  
        
 
-        self.camera=1
         self.quit()
     def button5_clicked(self):  
        
-        self.camera=0
 
         self.quit()
 
@@ -107,7 +96,6 @@ class image_gui():
        
 
         self.quit()
-        root_main.destroy()
 
     def button8_clicked(self):  
         SAMPLE_DIR = "C:\\html_link"
@@ -150,72 +138,8 @@ class image_gui():
 
 
     def quit(self):
-        global video
 
-
-
-
-        self.sizerate =self.txt4.get()
-        self.sizerate =float(self.sizerate)
-
-        self.mabiki =self.txt6.get()
-        self.mabiki =int(self.mabiki)
-
-        self.interval =self.txt3.get()
-        self.interval =float(self.interval)
-
-
-        self.gridx =self.txt7.get()
-        self.gridx =int(self.gridx)
-
-        self.gridy =self.txt8.get()
-        self.gridy =int(self.gridy)
-
-
-        self.x_count =self.txt10.get()
-        self.x_count =int(self.x_count)
-
-        self.exec_count =self.txt11.get()
-        self.exec_count =int(self.exec_count)
-        
-
-        if(len(self.filenames)>100):  
-            self.txt5.insert(tkinter.END,"ファイル数100超えました")
-
-        else:
-            
-            self.file_count=0  
-            for name in self.filenames:
-                self.video[self.file_count]=name
-                self.file_count=self.file_count+1
-            if(self.camera==1):    
-                self.video[0]=0
-                self.file_count=1  
-            #root_main.destroy()
-
-            self.play_thread()
-     
-    def play(self,no):
-        divide_param=0
-        canny=0
-        mono=0
-        schetch=0
-        schcolor=0
-        sizerate=float(self.sizerate)
-        mabiki=self.mabiki
-        interval=self.interval
-        for j in range(self.exec_count):
-            frame_count=0
-            qflag=0
-            no=int(no)
-
-    def play_thread(self):
-        thread=[0]*100
-
-        for i in range(self.file_count):
-      
-            thread[i] = threading.Thread(target=self.play, args=(i,))
-            thread[i].start()
+        root_main.destroy()
 
 
 
