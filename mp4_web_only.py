@@ -98,13 +98,13 @@ class image_gui():
         self.quit()
 
     def button8_clicked(self):  
-        SAMPLE_DIR = "C:\\html_link"
+        SAMPLE_DIR = ".\\.\\"
  
-        if not os.path.exists(SAMPLE_DIR):
+        #if not os.path.exists(SAMPLE_DIR):
         # ディレクトリが存在しない場合、ディレクトリを作成する
-            os.makedirs(SAMPLE_DIR)       
+        #    os.makedirs(SAMPLE_DIR)       
 
-        f = open("C:\\html_link\\web.html", 'w')
+        f = open("..\\web.html", 'w')
 
 
         datalist = []
@@ -132,7 +132,7 @@ class image_gui():
 
 
 
-        webbrowser.open('C:/html_link/web.html')
+        webbrowser.open('..\\web.html')
 
 
 
